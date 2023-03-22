@@ -1,0 +1,128 @@
+1.0, "Starting Gz"
+9.0, "Max. allowed Gz"
+49.5, "normal flow rate through brain dl/min"
+110.0, "max flow rate through the brain"
+19.0, "flow needed to maintain consciousness "
+9.0, "flow needed to maintain life"
+1.0, "g-tolerance multiplier relative to normal"
+2.5, "heart action ramp-up time constant"
+120., "Starting Systolic BP"
+80., "Starting Diastolic BP"
+177., "Max Systolic BP"
+80., "Max Diastolic BP"
+7.1, "starting seconds of consciousness after flow stops"
+180.0, "starting seconds of cell life after flow stops"
+1.0, "time to hold gmax in ramp-up experiment"
+0.0, "dGzdt for ramp-up"
+0.0, "dGzdt for ramp-down (use a positive number)"
+1, "subject sex"
+179.0, "subject height in cm"
+0.0, "anti-g suit max pressure in PSI(max ~12)"
+0.0, "anti-g suit fractional body coverage (.0 to .7)"
+0.0, "anti-g strain man effectiveness (0 none to 1 full)"
+0.0, "Pressure breathing gear max mmHg (up to 60)"
+0.0, "Other pre-test strain, 0 if relaxed, max 60 mmHg"
+0.0, "non-agsm tensing limit during test (0.-60. mmHg) " 
+10.0, "seat tilt from vertical"
+0.0, "seconds delay in heart response due to pharma"
+newramp1.dat
+2, "subject data source (0=above, 1-6 are pre-defined)"
+1, "0 or 1, use a internal/custom experimental profile"
+oiv8.txt
+oiv8_s2b.out
+
+# ShMIn2gS.dat
+# Above parameter choices set to mid range g tolerance
+# Parameters are:
+
+PARAMETERS FOR CENTRIFUGE EXPERIMENT MODELING 
+1. G0          local gravity field in g, typically =1
+2. Gmax        maximum Gz for experiment
+
+PARAMETERS FOR HUMAN PARTICIPANT PHYSIOLOGY 
+3. fnorm       normal blood flow rate through brain in dl/min (45-54)
+4. fmax        maximum blood flow rate through brain (about 110) 
+5. fcon        blood flow needed through brain to maintain consciousness (17-20)
+6. flife       blood flow needed through brain to maintain brain cell life (8-10)
+7. gtm         g tolerance time multiplier for studied population, 
+               usually = 1.0, but can be as great as 1.53 using breathing techniques
+               (this is an obsolete coding to include AGSM) 
+8. beta        time constant in seconds for heart rate response function
+                  (This should be about 1/7 the time to ramp up to full response.)
+				  2-3 seem typical (15-20 seconds to reach max effect)
+9. BSP         baseline systolic blood pressure (typically 110-140)
+10. BDP        baseline diastolic blood pressure (typically 60-90)
+               From J.E. Sharman and A. LaGerche. "Exercise Blood Pressure" 
+               Journal of Human Hypertension 29, 351-8 (2015).  
+11. MSP        maximum exercising systolic blood pressure (range 130-234)
+12. MDP        maximum exercising diastolic blood pressure (range 56-100)
+13. conbank    seconds of consciousness if oxygen flow stops. This is experimentally 
+               shown to range from 5 to 15 seconds from rapid decompression
+               and choke collar reports, 10 seems a reasonable midrange
+14. lifebank   seconds of life of brain life if blood flow stops minus conbank 
+               (typically accepted value is about 3 minutes). 180 sec is large 
+			   enough that it does not effect time to GLOC or RTC times
+
+MORE PARAMETERS FOR CENTRIFUGE EXPERIMENT MODELING 
+15. gmaxtime   seconds held at Gmax
+    (To simulate a particular experiment set 11,12, and 13 to >0.0,
+      otherwise a set of 30 simulations at predetermined dG/dt steps
+	  will be done based on values of 12 and 13.
+      If 12 is 0.0 then a set of 30 return to con sims will  
+	  be done. If 13 is 0.0 a set of 30 GLOC induction sims will be 
+	  run. If both are 0.0 then a set of 30 sims up to GLOC and back
+      to consciousness at the opposite dGdt after time gmaxtime 
+	  will be run.)   	  
+16. rampup     positive rate of change in Gz (g/s) towards GLOC
+17. rampdown   negative rate of change in GZ after gmaxtime in g/s
+
+MORE PARAMETERS FOR HUMAN PARTICIPANT PHYSIOLOGY 
+18. male       1=true/0=false (i.e. false = use female data)
+19. howtall    height of subject in cm (U.S. fighter pilot range is 162.6-195.6 cm)
+               used to calculate the heart-brain vertical distance, which is a slightly 
+			   less than the heart-eye vertical distance.
+
+PARAMETERS FOR COUNTERMEASURES
+20. smpsi      max pressure in PSI of anti-g suite, net effect is added g tolerance by
+               increase of internal pressures at heart level and from slightly raising 
+               the physical location of the heart in the chest cavity.
+               This added g tolerance from any pressure suit worn: use 0.0 for no gear 
+               (about 22 PSI is max.  0.8-1.0 Gz for WW2 era gear to 1.5-2.0 for modern gear)
+21. sbc        suit body coverage (more coverage can double effectiveness, but less comfortable.
+               standard military is 30-35%, can be up to 85%
+22. agsm       Effectiveness of the anti-G straining maneuver 0.0-1.0, optimal effectiveness will
+               increase intra-throracic pressure by as much as about 130 mmHg. 
+23. pbg        Pressurized breathing gear raises pressure in the chest cavity to assist breathing 
+               under high G. Maximum useful pressure is about 60 mmHg.  
+24. nagsm0     Starting increase in mean arterial pressure in the absence of AGSM due to other 
+               muscle strains, such as tightly gripping an object. Such tensing can 
+               increase mean arterial pressure at heart level by as much as 60 mmHg.  
+               A single tight grip can increase HLAP by 15 mmHg. 0 for relaxed. 
+25. nagsm max  Maximum allowed non-agsm straining increase. This will ramp-up in about 30 seconds 
+               to reach full effect if nagsm0 = 0 when the modeling begins.               
+26. seattilt   angle of seat tilted from vertical, if any, used to correct heart-brain distance. 
+               (e.g., 0-10 for typical, 30 deg for an F-16).
+               Lungs self-crushing from effective weight at large inclinations is also an issue 
+               to consider, but not modeled in this version. 
+
+PHARMACEUTICAL CARDIAC RESPONSE PARAMETER
+27. DrugDelay  Usually 0 s. Pharmacologically induced time delay in heart response to stress 
+               (e.g., metprolol can delay the initial heart rate increase by a few seconds). 
+
+FILE FOR CENTRIFUGE EXPERIMENT MODELING OUTPUT
+28. outname    name of output file (12 character max)
+
+PARTICIPANT PHYSIOLOGY STANDARD OPTIONS
+29. who        Allows a standard pilot physiology instead of the one defined by lines 3-14 
+               0= Use data from lines 3-14
+               1= best male, 2= midrange male, 3= worst male, 
+               4= best female, 5= midrange female, 6= worst female 
+               Best and worst use parameters for greatest and least g-resistance within the 
+               "normal physiological range"
+               
+CHOOSE ACCELERATION DATA INPUTS AND OUTPUTS 
+30. gfile      0= Use built in experiment plan sequence with results written to file outname (#28), 
+               1= Use custom experimental plan from file egpname (#31) 
+                  with result written to file egpoutname (#32)
+31. egpname    name of file (12 character max) with experimental dGzdt profile data 
+32. egpoutname name of file (12 character max) with experimental dGzdt profile output
